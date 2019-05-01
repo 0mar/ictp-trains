@@ -22,16 +22,18 @@ class Station:
         """
         Loads a train by taking parcels from the list and seeing if they fit.
         If a parcel is found to exceed the capacity of the train, the train is cleared from loading.
-
+        If a parcel is loaded, it is removed from the packing list by replacing it with None
         :param train: the train that is being loaded
         :return: None
         """
-        for parcel in self.list_of_parcels:
-            if parcel.destination == train.destination:
-                if train.has_capacity_for(parcel):
-                    train.add_parcel(parcel)
-                else:
-                    break
+        for index, parcel in enumerate(self.list_of_parcels):
+            if parcel:
+                if parcel.destination == train.destination:
+                    if train.has_capacity_for(parcel):
+                        train.add_parcel(parcel)
+                        self.list_of_parcels[index] = None
+                    else:
+                        break
 
     def get_train_schedule(self):
         """
@@ -49,7 +51,7 @@ class Station:
                     continue
                 data = line.split()
                 cities.append(data[0])
-                capacities.append(int(data[1] * 1000))
+                capacities.append(float(data[1]) * 1000)
         for city, capacity in zip(cities, capacities):
             self.list_of_trains.append(Train(city, capacity))
 
