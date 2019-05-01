@@ -10,4 +10,4 @@ class Parcel:
         self.weight = weight
 
     def __str__(self):
-        return "Parcel: {weight} kg to {dest}".format(weight=self.weight,dest=self.destination)
+        return "Parcel: {weight} kg to {destination}".format(weight=self.weight, destination=self.destination)

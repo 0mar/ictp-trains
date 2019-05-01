@@ -10,7 +10,6 @@ class Train:
         self.capacity = capacity
         self.current_weight = 0
         self._list_of_parcels = []
-        self.loaded = False
 
     def add_parcel(self, parcel):
         """
@@ -23,10 +22,19 @@ class Train:
         if self.current_weight > self.capacity:
             raise ValueError("Overweight: {}/{}".format(self.current_weight, self.capacity))
 
-    def get_number_of_particles(self):
+    def get_number_of_parcels(self):
+        """
+        Get the number of parcels on the train
+        :return:
+        """
         return len(self._list_of_parcels)
 
     def get_parcel_list(self):
+        """
+        View the current list of parcels loaded on the train.
+        Any changes made to this list will not impact the train.
+        :return: List of parcels
+        """
         return self._list_of_parcels.copy()
 
     def has_capacity_for(self, parcel):
