@@ -15,6 +15,10 @@ class Station:
         self.get_data_from_parcel_file()
 
     def process_trains(self):
+        """
+        Accept each train on the schedule and load them with the parcels
+        :return:
+        """
         for train in self.list_of_trains:
             self.load_train(train)
 
@@ -74,18 +78,22 @@ class Station:
             self.list_of_parcels.append(Parcel(city, weight))
 
     def write_train_data(self):
+        """
+        Write up the train/parcel distribution.
+        Loads a format string from file and uses that to format the output data
+        to write out the train properties per train file.
+        :return:
+        """
+        with open('format.str', 'r') as format_file:
+            format_str = format_file.read()
         for train_number, train in enumerate(self.list_of_trains):
             train_output_filename = "trains_%03d.txt" % train_number
             with open(train_output_filename, 'w') as train_output_file:
-                train_output_file.write("Train: %03d\n" % train_number)
-                train_output_file.write("Destination: %s\n" % train.destination)
-                train_output_file.write("Capacity: %05d\n" % train.capacity)
-                train_output_file.write("Actual load: %.2f\n" % train.current_weight)
-                train_output_file.write("Number of parcels: %05d\n" % train.get_number_of_parcels())
-                train_output_file.write("Parcels:\n")
-
-                for parcel in train.get_parcel_list():
-                    train_output_file.write("  %s %.2f\n" % (parcel.destination, parcel.weight))
+                data_str = format_str % (
+                train_number, train.destination, train.capacity, train.current_weight, train.get_number_of_parcels())
+                parcels = '\n'.join(
+                    ["  %s %.2f" % (parcel.destination, parcel.weight) for parcel in train.get_parcel_list()])
+                train_output_file.write(data_str + parcels)
 
 
 if __name__ == '__main__':

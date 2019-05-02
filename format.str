@@ -1,0 +1,7 @@
+Train: %03d
+Destination: %s
+Capacity: %05d
+Actual load: %.2f
+Number of parcels: %05d
+Parcels
+
